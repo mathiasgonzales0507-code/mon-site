@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PERFECTO GE2I 2026 — Ariane 6 Écoconception</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #04080f;
+      --bg2:       #070e1c;
+      --card:      rgba(255,255,255,0.04);
+      --border:    rgba(0,180,216,0.18);
+      --blue:      #00b4d8;
+      --blue2:     #0077b6;
+      --green:     #4ecb71;
+      --gold:      #f4c430;
+      --red:       #ff6b6b;
+      --text:      #d0e8ff;
+      --muted:     #5a7a99;
+      --white:     #f0f8ff;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── STARS ─────────────────────────────────── */
+    #stars-canvas {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── NAV ─────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 64px;
+      background: rgba(4,8,15,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 1.1rem;
+      letter-spacing: .12em;
+      color: var(--blue);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--green); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .78rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--blue); }
+
+    /* ── HERO ─────────────────────────────────── */
+    #hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 5vw 80px;
+      overflow: hidden;
+    }
+    .hero-badge {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .65rem; letter-spacing: .22em;
+      color: var(--green);
+      text-transform: uppercase;
+      border: 1px solid var(--green);
+      border-radius: 2px;
+      padding: .25rem 1rem;
+      margin-bottom: 2rem;
+      opacity: 0; animation: fadeUp .7s .2s forwards;
+    }
+    .hero-title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.4rem, 7vw, 6rem);
+      line-height: 1.05;
+      letter-spacing: -.01em;
+      color: var(--white);
+      opacity: 0; animation: fadeUp .7s .4s forwards;
+    }
+    .hero-title .accent { color: var(--blue); }
+    .hero-sub {
+      margin-top: 1.4rem;
+      max-width: 620px;
+      font-size: 1.05rem;
+      color: var(--muted);
+      opacity: 0; animation: fadeUp .7s .6s forwards;
+    }
+    .hero-slogan {
+      margin-top: 1.8rem;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--green);
+      opacity: 0; animation: fadeUp .7s .8s forwards;
+    }
+    .hero-cta {
+      margin-top: 2.6rem;
+      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+      opacity: 0; animation: fadeUp .7s 1s forwards;
+    }
+    .btn {
+      padding: .75rem 2rem;
+      border-radius: 3px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: .72rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all .25s;
+    }
+    .btn-primary {
+      background: var(--blue);
+      color: var(--bg);
+      border: none;
+    }
+    .btn-primary:hover { background: #00d4ff; transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent;
+      color: var(--blue);
+      border: 1px solid var(--blue);
+    }
+    .btn-outline:hover { background: rgba(0,180,216,.1); transform: translateY(-2px); }
+
+    /* Rocket glow */
+    .rocket-glow {
+      position: absolute;
+      bottom: -80px; left: 50%; transform: translateX(-50%);
+      width: 3px; height: 340px;
+      background: linear-gradient(to top, transparent, var(--blue), transparent);
+      opacity: .35;
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    /* ── SECTION BASE ─────────────────────────── */
+    section {
+      position: relative; z-index: 1;
+      padding: 100px 5vw;
+    }
+    .section-tag {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .6rem; letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: .8rem;
+    }
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.5rem, 3.5vw, 2.6rem);
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .section-title em { font-style: normal; color: var(--blue); }
+    .section-lead {
+      max-width: 680px;
+      color: var(--muted);
+      margin-bottom: 3.5rem;
+      font-size: .95rem;
+    }
+    .divider {
+      width: 48px; height: 2px;
+      background: linear-gradient(90deg, var(--blue), transparent);
+      margin-bottom: 3rem;
+    }
+
+    /* ── TEAM ─────────────────────────────────── */
+    #entreprise { background: var(--bg2); }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .team-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.8rem 1.5rem;
+      transition: border-color .3s, transform .3s;
+    }
+    .team-card:hover {
+      border-color: var(--blue);
+      transform: translateY(-4px);
+    }
+    .team-avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue2), var(--blue));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700; font-size: 1.1rem;
+      color: var(--bg);
+      margin-bottom: 1rem;
+    }
+    .team-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: .4rem;
+    }
+    .team-role {
+      font-size: .78rem;
+      color: var(--green);
+      line-height: 1.4;
+    }
+
+    /* ── ACV ──────────────────────────────────── */
+    #acv { background: var(--bg); }
+    .acv-grid {
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .acv-item {
+      display: grid;
+      grid-template-columns: 52px 1fr 1fr;
+      gap: 0 2rem;
+      align-items: start;
+      padding: 2rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      cursor: pointer;
+    }
+    .acv-item:last-child { border-bottom: none; }
+    .acv-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem; font-weight: 900;
+      line-height: 1;
+      color: rgba(0,180,216,0.18);
+      padding-top: .2rem;
+    }
+    .acv-stage {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .82rem; font-weight: 700;
+      color: var(--white);
+      margin-bottom: .6rem;
+    }
+    .acv-icon {
+      font-size: 1.4rem;
+      margin-bottom: .5rem;
+    }
+    .acv-impact {
+      font-size: .82rem;
+      color: var(--red);
+      line-height: 1.6;
+    }
+    .acv-solution {
+      font-size: .82rem;
+      color: var(--green);
+      line-height: 1.6;
+    }
+    .acv-label {
+      font-size: .65rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      margin-bottom: .5rem;
+    }
+    .label-impact { color: var(--red); }
+    .label-solution { color: var(--green); }
+
+    /* ── PRODUCTION ───────────────────────────── */
+    #production { background: var(--bg2); }
+    .prod-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    @media (max-width:800px) { .prod-layout { grid-template-columns: 1fr; } }
+    .local-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+    }
+    .local-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .75rem; font-weight: 700;
+      color: var(--blue);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .local-stat {
+      display: flex; gap: 1rem;
+      align-items: baseline;
+      margin-bottom: .5rem;
+    }
+    .local-stat-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.6rem; font-weight: 900;
+      color: var(--white);
+    }
+    .local-stat-label { font-size: .78rem; color: var(--muted); }
+    .local-bullets {
+      margin-top: 1.2rem;
+      list-style: none;
+      display: flex; flex-direction: column; gap: .5rem;
+    }
+    .local-bullets li {
+      font-size: .82rem;
+      color: var(--text);
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .local-bullets li::before {
+      content: '→';
+      position: absolute; left: 0;
+      color: var(--blue);
+    }
+
+    .suppliers-list {
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .supplier-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.2rem 1.5rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: start;
+      transition: border-color .25s;
+    }
+    .supplier-card:hover { border-color: var(--green); }
+    .supplier-emoji { font-size: 1.6rem; }
+    .supplier-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .72rem; font-weight: 700;
+      color: var(--white); margin-bottom: .3rem;
+    }
+    .supplier-role {
+      font-size: .75rem; color: var(--green);
+      margin-bottom: .3rem;
+    }
+    .supplier-desc { font-size: .75rem; color: var(--muted); }
+
+    /* ── BUDGET ───────────────────────────────── */
+    #budget { background: var(--bg); }
+    .budget-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+    .stat-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.6rem; font-weight: 900;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: .5rem;
+    }
+    .stat-value .accent { color: var(--gold); }
+    .stat-desc { font-size: .78rem; color: var(--muted); }
+    .budget-table {
+      width: 100%; border-collapse: collapse;
+      font-size: .82rem;
+    }
+    .budget-table th {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .65rem; letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      border-bottom: 1px solid var(--border);
+      padding: .8rem 1rem;
+      text-align: left;
+    }
+    .budget-table td {
+      padding: .9rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: var(--text);
+    }
+    .budget-table tr:hover td { background: rgba(0,180,216,.04); }
+    .budget-table .amount {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--gold);
+      text-align: right;
+    }
+
+    /* ── MARKETING ────────────────────────────── */
+    #marketing { background: var(--bg2); }
+    .market-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .market-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.8rem;
+      transition: border-color .25s, transform .25s;
+    }
+    .market-card:hover { border-color: var(--blue); transform: translateY(-3px); }
+    .market-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .market-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: .78rem; font-weight: 700;
+      color: var(--white); margin-bottom: .8rem;
+    }
+    .market-text { font-size: .82rem; color: var(--muted); }
+    .positioning-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .pos-item {
+      background: var(--card);
+      border-left: 3px solid var(--blue);
+      border-radius: 0 6px 6px 0;
+      padding: 1rem 1.4rem;
+      font-size: .84rem;
+      color: var(--text);
+    }
+    .pos-item strong { color: var(--white); display: block; margin-bottom: .2rem; font-size: .78rem; }
+    .social-row {
+      display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem;
+    }
+    .social-badge {
+      display: flex; align-items: center; gap: .5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: .5rem 1rem;
+      font-size: .8rem;
+      color: var(--text);
+      transition: border-color .25s;
+    }
+    .social-badge:hover { border-color: var(--blue); color: var(--white); }
+
+    /* ── CONCLUSION ───────────────────────────── */
+    #conclusion {
+      background: linear-gradient(180deg, var(--bg) 0%, #020a1a 100%);
+      text-align: center;
+    }
+    .conclusion-box {
+      max-width: 760px;
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 3.5rem 3rem;
+    }
+    .conclusion-quote {
+      font-family: 'Exo 2', sans-serif;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--white);
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+    .conclusion-quote .hl { color: var(--blue); font-style: normal; font-weight: 600; }
+    .args-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-top: 2.5rem;
+      text-align: left;
+    }
+    .arg-item {
+      padding: 1rem;
+      background: rgba(0,180,216,.05);
+      border-radius: 6px;
+      border: 1px solid rgba(0,180,216,.1);
+    }
+    .arg-item .icon { font-size: 1.2rem; margin-bottom: .5rem; }
+    .arg-item p { font-size: .8rem; color: var(--text); }
+
+    /* ── FOOTER ───────────────────────────────── */
+    footer {
+      position: relative; z-index: 1;
+      background: #020610;
+      border-top: 1px solid var(--border);
+      padding: 3rem 5vw;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: center;
+    }
+    .footer-left .logo-text {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900; font-size: 1rem;
+      color: var(--blue);
+      letter-spacing: .08em;
+    }
+    .footer-left p {
+      font-size: .78rem; color: var(--muted); margin-top: .4rem;
+    }
+    .footer-right {
+      font-size: .75rem; color: var(--muted);
+      text-align: right;
+    }
+
+    /* ── ANIMATIONS ───────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: .25; }
+      50% { opacity: .5; }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ───────────────────────────── */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .acv-item { grid-template-columns: 1fr; }
+      .acv-num { display: none; }
+      footer { grid-template-columns: 1fr; }
+      .footer-right { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Stars background -->
+  <canvas id="stars-canvas"></canvas>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#hero">PERFECTO <span>GE2I</span></a>
+    <ul class="nav-links">
+      <li><a href="#entreprise">Entreprise</a></li>
+      <li><a href="#acv">Cycle de vie</a></li>
+      <li><a href="#production">Production</a></li>
+      <li><a href="#budget">Budget</a></li>
+      <li><a href="#marketing">Marketing</a></li>
+      <li><a href="#conclusion">Conclusion</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-badge">Dossier candidature · Appel à projet 2026</div>
+    <h1 class="hero-title">
+      ARIANE <span class="accent">6</span><br>
+      Écoconception
+    </h1>
+    <p class="hero-sub">
+      L'Europe accède à l'espace de manière plus performante, plus compétitive
+      et plus <strong>responsable pour l'environnement</strong>.
+    </p>
+    <p class="hero-slogan">"Connecter le monde tout en préservant l'avenir."</p>
+    <div class="hero-cta">
+      <a href="#acv" class="btn btn-primary">Analyse du cycle de vie</a>
+      <a href="#entreprise" class="btn btn-outline">Notre équipe</a>
+    </div>
+    <div class="rocket-glow"></div>
+  </section>
+
+  <!-- SECTION 1 — ENTREPRISE -->
+  <section id="entreprise">
+    <div class="reveal">
+      <p class="section-tag">01 / Notre entreprise</p>
+      <h2 class="section-title">Une équipe engagée pour<br><em>l'espace durable</em></h2>
+      <div class="divider"></div>
+      <p class="section-lead">
+        Dans le cadre du projet PERFECTO GE2I 2026, nous proposons une démarche d'écoconception
+        appliquée au lanceur Ariane 6. Notre mission : concevoir un système de lancement spatial
+        compétitif et respectueux de l'environnement à chaque étape de son cycle de vie.
+      </p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card reveal">
+        <div class="team-avatar">NJ</div>
+        <div class="team-name">Noa Jonas</div>
+        <div class="team-role">Responsable Commercial & Marketing</div>
+      </div>
+      <div class="team-card reveal">
+        <div class="team-avatar">MG</div>
+        <div class="team-name">Mathias Gonzales</div>
+        <div class="team-role">Responsable Production & Logistique</div>
+      </div>
+      <div class="team-card reveal">
+        <div class="team-avatar">MC</div>
+        <div class="team-name">Mathieu Cauvel</div>
+        <div class="team-role">Responsable R&D & Écoconception</div>
+      </div>
+      <div class="team-card reveal">
+        <div class="team-avatar">AD</div>
+        <div class="team-name">Alexan Dal Grande</div>
+        <div class="team-role">Gérant & Responsable Financier</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 — ACV -->
+  <section id="acv">
+    <div class="reveal">
+      <p class="section-tag">02 / Analyse du cycle de vie</p>
+      <h2 class="section-title">5 étapes,<br><em>5 engagements</em> éco</h2>
+      <div class="divider"></div>
+      <p class="section-lead">
+        Pour chaque étape du cycle de vie d'Ariane 6, nous identifions les impacts environnementaux
+        et proposons des solutions d'écoconception concrètes et sourcées.
+      </p>
+    </div>
+
+    <div class="acv-grid">
+
+      <div class="acv-item reveal">
+        <div class="acv-num">01</div>
+        <div>
+          <div class="acv-icon">⛏️</div>
+          <div class="acv-stage">Extraction des matières premières</div>
+          <div class="acv-label label-impact">Impacts</div>
+          <div class="acv-impact">
+            Épuisement des ressources : aluminium, titane, terres rares.<br>
+            Pollution eau & sols liée à l'extraction minière.<br>
+            Fibres de carbone : jusqu'à <strong>20–30×</strong> plus énergivores que l'acier.
+          </div>
+        </div>
+        <div>
+          <div class="acv-icon" style="opacity:0">·</div>
+          <div class="acv-label label-solution">Solutions</div>
+          <div class="acv-solution">
+            ✦ Aluminium recyclé de grade aéronautique (Metaconcept, KBM Recycling).<br>
+            ✦ Approvisionnement auprès de fournisseurs certifiés normes environnementales.
+          </div>
+        </div>
+      </div>
+
+      <div class="acv-item reveal">
+        <div class="acv-num">02</div>
+        <div>
+          <div class="acv-icon">🏭</div>
+          <div class="acv-stage">Fabrication</div>
+          <div class="acv-label label-impact">Impacts</div>
+          <div class="acv-impact">
+            Empreinte carbone élevée : bobinage des boosters P120C.<br>
+            Déchets chimiques : solvants, résines toxiques → <strong>30 % des déchets dangereux</strong>.
+          </div>
+        </div>
+        <div>
+          <div class="acv-icon" style="opacity:0">·</div>
+          <div class="acv-label label-solution">Solutions</div>
+          <div class="acv-solution">
+            ✦ Électricité 100 % verte pour les usines (–60 à 90 % des émissions).<br>
+            ✦ Impression 3D (ArianeGroup Vernon) pour réduire le gaspillage matière.<br>
+            ✦ Solvants biosourcés (Francofil, Bretagne).
+          </div>
+        </div>
+      </div>
+
+      <div class="acv-item reveal">
+        <div class="acv-num">03</div>
+        <div>
+          <div class="acv-icon">🚢</div>
+          <div class="acv-stage">Distribution</div>
+          <div class="acv-label label-impact">Impacts</div>
+          <div class="acv-impact">
+            Émissions maritimes : transport des étages de la fusée de l'Europe vers la Guyane.
+          </div>
+        </div>
+        <div>
+          <div class="acv-icon" style="opacity:0">·</div>
+          <div class="acv-label label-solution">Solutions</div>
+          <div class="acv-solution">
+            ✦ Cargo <strong>Canopée</strong> : voiles de propulsion éolienne, –20 à 30 % de carburant<br>sur la route Europe–Kourou. (Louis Dreyfus Armateurs)
+          </div>
+        </div>
+      </div>
+
+      <div class="acv-item reveal">
+        <div class="acv-num">04</div>
+        <div>
+          <div class="acv-icon">🚀</div>
+          <div class="acv-stage">Utilisation — Lancement</div>
+          <div class="acv-label label-impact">Impacts</div>
+          <div class="acv-impact">
+            Boosters solides → alumine & chlore → dégradation de la couche d'ozone.<br>
+            Hydrogène LH₂ produit par vaporeformage très polluant.<br>
+            Un lancement : <strong>200 à 3 000 t CO₂</strong>.
+          </div>
+        </div>
+        <div>
+          <div class="acv-icon" style="opacity:0">·</div>
+          <div class="acv-label label-solution">Solutions</div>
+          <div class="acv-solution">
+            ✦ Hydrogène vert par électrolyse (McPhy, Belfort · Genvia, Béziers).<br>
+            ✦ Transition vers propulsion méthane/oxygène (moteur Prometheus).
+          </div>
+        </div>
+      </div>
+
+      <div class="acv-item reveal">
+        <div class="acv-num">05</div>
+        <div>
+          <div class="acv-icon">♻️</div>
+          <div class="acv-stage">Fin de vie</div>
+          <div class="acv-label label-impact">Impacts</div>
+          <div class="acv-impact">
+            Boosters et 1ᵉʳ étage coulent dans l'océan (métaux précieux perdus).<br>
+            Plus de <strong>130 millions</strong> de débris spatiaux en orbite.
+          </div>
+        </div>
+        <div>
+          <div class="acv-icon" style="opacity:0">·</div>
+          <div class="acv-label label-solution">Solutions</div>
+          <div class="acv-solution">
+            ✦ Réutilisabilité des boosters (projets Maia & Themisto).<br>
+            ✦ Désorbitation propre via rallumage du moteur Vinci (brûlage atmosphérique).
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 3 — PRODUCTION & LOGISTIQUE -->
+  <section id="production">
+    <div class="reveal">
+      <p class="section-tag">03 / Production & Logistique</p>
+      <h2 class="section-title">Implanté à <em>Vernon</em>,<br>au cœur de l'aérospatial français</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="prod-layout">
+      <div>
+        <div class="local-card reveal" style="margin-bottom:1.5rem">
+          <div class="local-title">📍 Notre local — Vernon (27200)</div>
+          <div class="local-stat">
+            <div class="local-stat-num">1 700</div>
+            <div class="local-stat-label">m² de surface totale</div>
+          </div>
+          <div class="local-stat">
+            <div class="local-stat-num">50 €</div>
+            <div class="local-stat-label">/ m² / an (HT-HC)</div>
+          </div>
+          <ul class="local-bullets">
+            <li>1 219 m² d'espace d'activité + 481 m² de bureaux climatisés</li>
+            <li>Hauteur sous plafond : 4,37 m — adapté à l'assemblage de pièces spatiales</li>
+            <li>Disponibilité immédiate · Bail commercial 3/6/9 ans</li>
+            <li>Accès A13 direct vers Paris (Air Liquide) & Les Mureaux</li>
+            <li>À 5 min d'ArianeGroup Vernon et de Safran Spacecraft Propulsion</li>
+          </ul>
+        </div>
+        <div class="local-card reveal">
+          <div class="local-title">🛤️ Justification logistique</div>
+          <ul class="local-bullets">
+            <li>ZI Vernon-Saint-Marcel : pôle industriel aérospatial de référence</li>
+            <li>A13 : axe direct Paris ↔ Normandie (80 km de Paris)</li>
+            <li>Gare SNCF Vernon à 2 km pour les équipes</li>
+            <li>Réseau routier adapté au transport de composants lourds</li>
+          </ul>
+        </div>
+      </div>
+      <div class="suppliers-list">
+        <div class="supplier-card reveal">
+          <div class="supplier-emoji">🔩</div>
+          <div>
+            <div class="supplier-name">Metaconcept Group & KBM Recycling</div>
+            <div class="supplier-role">Matières premières — Aluminium recyclé</div>
+            <div class="supplier-desc">Alliages jusqu'à 100 % recyclés de grade aéronautique. Collecte et recyclage chez Safran.</div>
+          </div>
+        </div>
+        <div class="supplier-card reveal">
+          <div class="supplier-emoji">🖨️</div>
+          <div>
+            <div class="supplier-name">Francofil (Bretagne)</div>
+            <div class="supplier-role">Fabrication — Filaments 3D biosourcés</div>
+            <div class="supplier-desc">Filaments d'impression 3D 100 % biosourcés pour pièces non structurelles.</div>
+          </div>
+        </div>
+        <div class="supplier-card reveal">
+          <div class="supplier-emoji">🔧</div>
+          <div>
+            <div class="supplier-name">ArianeGroup Vernon (Normandie)</div>
+            <div class="supplier-role">Fabrication — Impression 3D métaux & cryotechnique</div>
+            <div class="supplier-desc">Expertise impression 3D pour moteurs spatiaux et pièces cryotechniques.</div>
+          </div>
+        </div>
+        <div class="supplier-card reveal">
+          <div class="supplier-emoji">💧</div>
+          <div>
+            <div class="supplier-name">Air Liquide Advanced Technologies (Paris)</div>
+            <div class="supplier-role">Utilisation — LH₂ & LOX cryogénique</div>
+            <div class="supplier-desc">Fournisseur historique d'hydrogène liquide pour Ariane. Développe l'H₂ vert par électrolyse.</div>
+          </div>
+        </div>
+        <div class="supplier-card reveal">
+          <div class="supplier-emoji">⚙️</div>
+          <div>
+            <div class="supplier-name">Safran Spacecraft Propulsion (Vernon)</div>
+            <div class="supplier-role">Propulsion — Moteurs Vulcain 2.1 & Vinci</div>
+            <div class="supplier-desc">Maître d'œuvre des moteurs d'Ariane 6, site de production à Vernon même.</div>
+          </div>
+        </div>
+        <div class="supplier-card reveal">
+          <div class="supplier-emoji">⚡</div>
+          <div>
+            <div class="supplier-name">McPhy (Belfort) & Genvia (Béziers)</div>
+            <div class="supplier-role">Hydrogène vert — Électrolyseurs industriels</div>
+            <div class="supplier-desc">Gigafactories d'électrolyseurs : 1 GW/an. Alimentation future de la centrale en Guyane.</div>
+          </div>
+        </div>
+        <div class="supplier-card reveal">
+          <div class="supplier-emoji">🌊</div>
+          <div>
+            <div class="supplier-name">Canopée — Louis Dreyfus Armateurs</div>
+            <div class="supplier-role">Distribution — Transport écoconçu Europe → Kourou</div>
+            <div class="supplier-desc">Voiles de propulsion éolienne : –20 à 30 % de carburant sur la route vers la Guyane.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 — BUDGET -->
+  <section id="budget">
+    <div class="reveal">
+      <p class="section-tag">04 / Budget prévisionnel</p>
+      <h2 class="section-title">Investir dans<br><em>l'excellence spatiale</em></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="budget-stats">
+      <div class="stat-card reveal">
+        <div class="stat-value"><span class="accent">99,5 M€</span></div>
+        <div class="stat-desc">Équipements & machines (matériel de sécurité, équipements techniques)</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-value"><span class="accent">25 000 €</span></div>
+        <div class="stat-desc">Autres coûts de démarrage (aménagement, assurances, mobilier, informatique)</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-value"><span class="accent">85 000 €</span></div>
+        <div class="stat-desc">Local Vernon 1 700 m² — loyer annuel estimé (50 €/m²/an)</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-value"><span class="accent">~100 M€</span></div>
+        <div class="stat-desc">Total coûts de démarrage estimés</div>
+      </div>
+    </div>
+    <div class="reveal">
+      <table class="budget-table">
+        <thead>
+          <tr>
+            <th>Poste de dépense</th>
+            <th>Catégorie</th>
+            <th class="amount">Montant estimé</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Local industriel 1 700 m² — Vernon (27)</td>
+            <td>Démarrage</td>
+            <td class="amount">85 000 € / an</td>
+          </tr>
+          <tr>
+            <td>Équipements & machines (hors tir)</td>
+            <td>Démarrage</td>
+            <td class="amount">99 500 000 €</td>
+          </tr>
+          <tr>
+            <td>Travaux d'aménagement & mise aux normes</td>
+            <td>Démarrage</td>
+            <td class="amount">15 000 €</td>
+          </tr>
+          <tr>
+            <td>Assurances, licences, frais administratifs</td>
+            <td>Démarrage</td>
+            <td class="amount">5 000 €</td>
+          </tr>
+          <tr>
+            <td>Mobilier & informatique</td>
+            <td>Démarrage</td>
+            <td class="amount">5 000 €</td>
+          </tr>
+          <tr>
+            <td>Matières premières & composants (annuel)</td>
+            <td>Fonctionnement</td>
+            <td class="amount">À définir</td>
+          </tr>
+          <tr>
+            <td>Énergie renouvelable & maintenance</td>
+            <td>Fonctionnement</td>
+            <td class="amount">À définir</td>
+          </tr>
+          <tr>
+            <td>Salaires & charges</td>
+            <td>Fonctionnement</td>
+            <td class="amount">À définir</td>
+          </tr>
+          <tr>
+            <td>Transport & logistique (Canopée)</td>
+            <td>Fonctionnement</td>
+            <td class="amount">À définir</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 5 — MARKETING -->
+  <section id="marketing">
+    <div class="reveal">
+      <p class="section-tag">05 / Stratégie commerciale & marketing</p>
+      <h2 class="section-title">Un marché mondial,<br><em>une ambition européenne</em></h2>
+      <div class="divider"></div>
+      <p class="section-lead">
+        Ariane 6 cible le marché mondial du transport spatial institutionnel et commercial,
+        en garantissant à l'Europe un accès indépendant à l'espace tout en restant compétitif à l'international.
+      </p>
+    </div>
+
+    <div class="market-grid">
+      <div class="market-card reveal">
+        <div class="market-icon">🛰️</div>
+        <div class="market-title">Agences spatiales</div>
+        <div class="market-text">ESA, CNES, NASA, DLR — partenaires institutionnels historiques et garants de missions scientifiques.</div>
+      </div>
+      <div class="market-card reveal">
+        <div class="market-icon">📡</div>
+        <div class="market-title">Télécommunications</div>
+        <div class="market-text">Eutelsat, SES, OneWeb — opérateurs satellites de télécommunications et de connectivité mondiale.</div>
+      </div>
+      <div class="market-card reveal">
+        <div class="market-icon">🛡️</div>
+        <div class="market-title">Défense & gouvernements</div>
+        <div class="market-text">Ministères de la Défense européens et programme Galileo (GPS européen) — souveraineté spatiale.</div>
+      </div>
+      <div class="market-card reveal">
+        <div class="market-icon">🌍</div>
+        <div class="market-title">Observation de la Terre</div>
+        <div class="market-text">Airbus Defence & Space, Planet Labs — satellites d'observation pour surveillance environnementale.</div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <h3 style="font-family:'Orbitron',sans-serif;font-size:.9rem;color:var(--white);margin-bottom:1rem;letter-spacing:.06em;">
+        Avantages concurrentiels — Écoconception
+      </h3>
+      <div class="positioning-list">
+        <div class="pos-item">
+          <strong>🔒 Fiabilité</strong>Héritage d'Ariane 5, zéro compromis sur la sécurité des missions.
+        </div>
+        <div class="pos-item">
+          <strong>🔀 Modularité</strong>Ariane 62 & Ariane 64 — adaptées à différents types d'orbites et de charges utiles.
+        </div>
+        <div class="pos-item">
+          <strong>🇪🇺 Souveraineté</strong>Indépendance spatiale européenne face aux concurrents privés américains.
+        </div>
+        <div class="pos-item">
+          <strong>🌿 Clean Space ESA</strong>Programme environnemental complet sur l'ensemble du cycle de vie.
+        </div>
+        <div class="pos-item">
+          <strong>🔁 Réutilisabilité future</strong>Projet Maia — lanceur réutilisable européen en développement.
+        </div>
+        <div class="pos-item">
+          <strong>⚡ H₂ vert</strong>Transition vers l'hydrogène vert pour réduire l'empreinte du lancement.
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:3rem">
+      <h3 style="font-family:'Orbitron',sans-serif;font-size:.9rem;color:var(--white);margin-bottom:.6rem;letter-spacing:.06em;">
+        Actions de communication
+      </h3>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem;">
+        Affiche · Site internet · Réseaux sociaux — un message fort : 
+        <em style="color:var(--white)">"ARIANE 6 : L'espace européen plus performant et plus responsable"</em>
+      </p>
+      <div class="social-row">
+        <div class="social-badge">💼 LinkedIn</div>
+        <div class="social-badge">𝕏 X / Twitter</div>
+        <div class="social-badge">📸 Instagram</div>
+        <div class="social-badge">▶️ YouTube</div>
+        <div class="social-badge">🌐 Site dédié</div>
+        <div class="social-badge">🖼️ Affiche publicitaire</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6 — CONCLUSION -->
+  <section id="conclusion">
+    <div class="reveal">
+      <p class="section-tag">06 / Conclusion & perspectives</p>
+      <h2 class="section-title" style="text-align:center">Pourquoi soutenir<br><em>ce projet ?</em></h2>
+      <div class="divider" style="margin:1.5rem auto 2rem"></div>
+    </div>
+    <div class="conclusion-box reveal">
+      <p class="conclusion-quote">
+        Notre projet démontre qu'<span class="hl">innovation spatiale</span> et 
+        <span class="hl">développement durable</span> peuvent avancer ensemble. 
+        Ariane 6, repensée à travers le prisme de l'écoconception, représente 
+        l'avenir du transport spatial européen : <span class="hl">compétitif, responsable, souverain</span>.
+      </p>
+      <div class="args-grid">
+        <div class="arg-item">
+          <div class="icon">🌿</div>
+          <p>ACV complète sur 5 étapes avec solutions concrètes et fournisseurs français identifiés.</p>
+        </div>
+        <div class="arg-item">
+          <div class="icon">📍</div>
+          <p>Local stratégique à Vernon (27) : au cœur du cluster ArianeGroup + Safran.</p>
+        </div>
+        <div class="arg-item">
+          <div class="icon">♻️</div>
+          <p>Chaîne d'approvisionnement 100 % française, circulaire et traçable.</p>
+        </div>
+        <div class="arg-item">
+          <div class="icon">🚀</div>
+          <p>Vision long terme : réutilisabilité (Maia), H₂ vert, propulsion méthane (Prometheus).</p>
+        </div>
+        <div class="arg-item">
+          <div class="icon">🇪🇺</div>
+          <p>Indépendance spatiale européenne renforcée face à SpaceX et aux concurrents asiatiques.</p>
+        </div>
+        <div class="arg-item">
+          <div class="icon">📊</div>
+          <p>Marché porteur : constellations satellites, télécoms, observation de la Terre.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">
+      <div class="logo-text">PERFECTO GE2I 2026</div>
+      <p>Dossier candidature · Écoconception Ariane 6<br>IUT · Université · Projet étudiant</p>
+    </div>
+    <div class="footer-right">
+      <p>Équipe projet</p>
+      <p>Noa Jonas · Mathias Gonzales</p>
+      <p>Mathieu Cauvel · Alexan Dal Grande</p>
+    </div>
+  </footer>
+
+  <script>
+    /* ── STARS ─────────────────────────────────── */
+    (function () {
+      const canvas = document.getElementById('stars-canvas');
+      const ctx = canvas.getContext('2d');
+      let stars = [];
+
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      function init() {
+        stars = [];
+        const count = Math.floor((canvas.width * canvas.height) / 4000);
+        for (let i = 0; i < count; i++) {
+          stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 1.4 + 0.2,
+            o: Math.random(),
+            d: (Math.random() - 0.5) * 0.003,
+          });
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(s => {
+          s.o += s.d;
+          if (s.o > 1 || s.o < 0.1) s.d *= -1;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(180,210,255,${s.o})`;
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+
+      resize();
+      init();
+      draw();
+      window.addEventListener('resize', () => { resize(); init(); });
+    })();
+
+    /* ── SCROLL REVEAL ─────────────────────────── */
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => io.observe(el));
+
+    /* ── STAGGER TEAM CARDS ────────────────────── */
+    document.querySelectorAll('.team-card').forEach((el, i) => {
+      el.style.transitionDelay = (i * 0.1) + 's';
+    });
+    document.querySelectorAll('.supplier-card').forEach((el, i) => {
+      el.style.transitionDelay = (i * 0.07) + 's';
+    });
+    document.querySelectorAll('.market-card').forEach((el, i) => {
+      el.style.transitionDelay = (i * 0.08) + 's';
+    });
+    document.querySelectorAll('.acv-item').forEach((el, i) => {
+      el.style.transitionDelay = (i * 0.1) + 's';
+    });
+  </script>
+</body>
+</html>
