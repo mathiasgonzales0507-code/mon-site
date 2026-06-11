@@ -249,7 +249,7 @@
       font-family: 'Orbitron', sans-serif;
       font-size: 2rem; font-weight: 900;
       line-height: 1;
-      color: rgba(0,180,216,0.18);
+      color: rgba(204, 225, 234, 0.941);
       padding-top: .2rem;
     }
     .acv-stage {
@@ -457,9 +457,11 @@
       padding: .5rem 1rem;
       font-size: .8rem;
       color: var(--text);
-      transition: border-color .25s;
+      transition: border-color .25s, color .25s;
+      text-decoration: none;
     }
-    .social-badge:hover { border-color: var(--blue); color: var(--white); }
+    .social-badge:hover:not(.social-badge--soon) { border-color: var(--blue); color: var(--white); }
+    a.social-badge { cursor: pointer; }
 
     /* ── CONCLUSION ───────────────────────────── */
     #conclusion {
@@ -490,14 +492,14 @@
       margin-top: 2.5rem;
       text-align: left;
     }
-    .arg-item {
+    .grid-item {
       padding: 1rem;
       background: rgba(0,180,216,.05);
       border-radius: 6px;
       border: 1px solid rgba(0,180,216,.1);
     }
-    .arg-item .icon { font-size: 1.2rem; margin-bottom: .5rem; }
-    .arg-item p { font-size: .8rem; color: var(--text); }
+    .grid-item .icon { font-size: 1.2rem; margin-bottom: .5rem; }
+    .grid-item p { font-size: .8rem; color: var(--text); }
 
     /* ── FOOTER ───────────────────────────────── */
     footer {
@@ -555,12 +557,10 @@
 </head>
 <body>
 
-  <!-- Stars background -->
   <canvas id="stars-canvas"></canvas>
 
-  <!-- NAV -->
   <nav>
-    <a class="nav-logo" href="#hero">PERFECTO <span>GE2I</span></a>
+    <a class="nav-logo" href="#hero">ECO<span>SPACE</span> · GE2I</a>
     <ul class="nav-links">
       <li><a href="#entreprise">Entreprise</a></li>
       <li><a href="#acv">Cycle de vie</a></li>
@@ -571,16 +571,15 @@
     </ul>
   </nav>
 
-  <!-- HERO -->
   <section id="hero">
     <div class="hero-badge">Dossier candidature · Appel à projet 2026</div>
     <h1 class="hero-title">
-      ARIANE <span class="accent">6</span><br>
-      Écoconception
+      <span class="accent">Ecospace</span><br>
+        Ecoconception d'une fusée européenne durable
     </h1>
     <p class="hero-sub">
-      L'Europe accède à l'espace de manière plus performante, plus compétitive
-      et plus <strong>responsable pour l'environnement</strong>.
+      Ecospace permet à l'Europe d'accéder à l'espace de manière plus performante,
+      plus compétitive et plus <strong>responsable pour l'environnement</strong>.
     </p>
     <p class="hero-slogan">"Connecter le monde tout en préservant l'avenir."</p>
     <div class="hero-cta">
@@ -590,7 +589,6 @@
     <div class="rocket-glow"></div>
   </section>
 
-  <!-- SECTION 1 — ENTREPRISE -->
   <section id="entreprise">
     <div class="reveal">
       <p class="section-tag">01 / Notre entreprise</p>
@@ -626,7 +624,6 @@
     </div>
   </section>
 
-  <!-- SECTION 2 — ACV -->
   <section id="acv">
     <div class="reveal">
       <p class="section-tag">02 / Analyse du cycle de vie</p>
@@ -749,7 +746,6 @@
     </div>
   </section>
 
-  <!-- SECTION 3 — PRODUCTION & LOGISTIQUE -->
   <section id="production">
     <div class="reveal">
       <p class="section-tag">03 / Production & Logistique</p>
@@ -765,8 +761,8 @@
             <div class="local-stat-label">m² de surface totale</div>
           </div>
           <div class="local-stat">
-            <div class="local-stat-num">50 €</div>
-            <div class="local-stat-label">/ m² / an (HT-HC)</div>
+            <div class="local-stat-num">75 K€</div>
+            <div class="local-stat-label">/ mois HT (loyer)</div>
           </div>
           <ul class="local-bullets">
             <li>1 219 m² d'espace d'activité + 481 m² de bureaux climatisés</li>
@@ -828,7 +824,7 @@
           </div>
         </div>
         <div class="supplier-card reveal">
-          <div class="supplier-emoji">⚡</div>
+          <div class="supplier-emoji">🔑</div>
           <div>
             <div class="supplier-name">McPhy (Belfort) & Genvia (Béziers)</div>
             <div class="supplier-role">Hydrogène vert — Électrolyseurs industriels</div>
@@ -847,7 +843,6 @@
     </div>
   </section>
 
-  <!-- SECTION 4 — BUDGET -->
   <section id="budget">
     <div class="reveal">
       <p class="section-tag">04 / Budget prévisionnel</p>
@@ -864,12 +859,28 @@
         <div class="stat-desc">Autres coûts de démarrage (aménagement, assurances, mobilier, informatique)</div>
       </div>
       <div class="stat-card reveal">
-        <div class="stat-value"><span class="accent">85 000 €</span></div>
-        <div class="stat-desc">Local Vernon 1 700 m² — loyer annuel estimé (50 €/m²/an)</div>
+        <div class="stat-value"><span class="accent">75 000 €</span></div>
+        <div class="stat-desc">Local Vernon 1 700 m² — loyer mensuel (HT)</div>
       </div>
       <div class="stat-card reveal">
         <div class="stat-value"><span class="accent">~100 M€</span></div>
         <div class="stat-desc">Total coûts de démarrage estimés</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-value"><span class="accent">35,6 M€</span></div>
+        <div class="stat-desc">Total coûts de fonctionnement annuel</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-value"><span class="accent">~150 M€</span></div>
+        <div class="stat-desc">Coût total de production estimé</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-value"><span class="accent" style="color:var(--green)">450 M€</span></div>
+        <div class="stat-desc">Prix de vente estimé du produit / service</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-value"><span class="accent" style="color:var(--gold)">300 M€</span></div>
+        <div class="stat-desc">Seuil de rentabilité estimé</div>
       </div>
     </div>
     <div class="reveal">
@@ -885,7 +896,7 @@
           <tr>
             <td>Local industriel 1 700 m² — Vernon (27)</td>
             <td>Démarrage</td>
-            <td class="amount">85 000 € / an</td>
+            <td class="amount">75 000 € / mois HT</td>
           </tr>
           <tr>
             <td>Équipements & machines (hors tir)</td>
@@ -910,29 +921,33 @@
           <tr>
             <td>Matières premières & composants (annuel)</td>
             <td>Fonctionnement</td>
-            <td class="amount">À définir</td>
+            <td class="amount">8 – 10 M€</td>
           </tr>
           <tr>
             <td>Énergie renouvelable & maintenance</td>
             <td>Fonctionnement</td>
-            <td class="amount">À définir</td>
+            <td class="amount">416 000 €</td>
           </tr>
           <tr>
-            <td>Salaires & charges</td>
+            <td>Salaires & charges (1 000 salariés au SMIC)</td>
             <td>Fonctionnement</td>
-            <td class="amount">À définir</td>
+            <td class="amount">2 500 € net / salarié</td>
           </tr>
           <tr>
             <td>Transport & logistique (Canopée)</td>
             <td>Fonctionnement</td>
-            <td class="amount">À définir</td>
+            <td class="amount">2 – 5 M€</td>
+          </tr>
+          <tr>
+            <td>Frais de marketing & communication</td>
+            <td>Fonctionnement</td>
+            <td class="amount">50 000 €</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <!-- SECTION 5 — MARKETING -->
   <section id="marketing">
     <div class="reveal">
       <p class="section-tag">05 / Stratégie commerciale & marketing</p>
@@ -1002,17 +1017,22 @@
         <em style="color:var(--white)">"ARIANE 6 : L'espace européen plus performant et plus responsable"</em>
       </p>
       <div class="social-row">
-        <div class="social-badge">💼 LinkedIn</div>
-        <div class="social-badge">𝕏 X / Twitter</div>
-        <div class="social-badge">📸 Instagram</div>
-        <div class="social-badge">▶️ YouTube</div>
-        <div class="social-badge">🌐 Site dédié</div>
-        <div class="social-badge">🖼️ Affiche publicitaire</div>
+        <a class="social-badge" href="https://www.instagram.com/ecospace2026?igsh=M3NnbnJrcXRrbTdm" target="_blank" rel="noopener noreferrer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          Instagram · @ecospace2026
+        </a>
+        <a class="social-badge" href="https://x.com/EcoSpacemcfe" target="_blank" rel="noopener noreferrer">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X (Twitter) · @EcoSpacemcfe
+        </a>
+        <a class="social-badge" href="http://www.linkedin.com/in/ecospace-a38a26415" target="_blank" rel="noopener noreferrer">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn · Ecospace
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 6 — CONCLUSION -->
   <section id="conclusion">
     <div class="reveal">
       <p class="section-tag">06 / Conclusion & perspectives</p>
@@ -1055,11 +1075,17 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     <div class="footer-left">
-      <div class="logo-text">PERFECTO GE2I 2026</div>
+      <div class="logo-text">ECOSPACE · PERFECTO GE2I 2026</div>
       <p>Dossier candidature · Écoconception Ariane 6<br>IUT · Université · Projet étudiant</p>
+      <div style="display:flex;gap:.8rem;margin-top:.8rem;flex-wrap:wrap;">
+        <a href="https://www.instagram.com/ecospace2026?igsh=M3NnbnJrcXRrbTdm" target="_blank" rel="noopener noreferrer" style="color:var(--muted);font-size:.72rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--muted)'">Instagram</a>
+        <span style="color:var(--border)">·</span>
+        <a href="https://x.com/EcoSpacemcfe" target="_blank" rel="noopener noreferrer" style="color:var(--muted);font-size:.72rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--muted)'">X / Twitter</a>
+        <span style="color:var(--border)">·</span>
+        <a href="http://www.linkedin.com/in/ecospace-a38a26415" target="_blank" rel="noopener noreferrer" style="color:var(--muted);font-size:.72rem;text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='var(--muted)'">LinkedIn</a>
+      </div>
     </div>
     <div class="footer-right">
       <p>Équipe projet</p>
